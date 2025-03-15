@@ -1,3 +1,4 @@
-a = (1, 2, 3, 4, 5)
-x = sum(a)
-print(x)
+a = 33
+b = 200
+if b > a:
+  print("b is greater than a")
