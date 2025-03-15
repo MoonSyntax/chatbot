@@ -1,7 +1,6 @@
 a = 330
-b = 2000
-if b > a:
-  print("b is greater than a")
+b = 200
+if b < a:
+  print("b is less than a")
   print(b)
-  print(a)
-  print(b)
+
