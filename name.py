@@ -1,4 +1,4 @@
-bike = 'Yamaha'
+bike = 'Suzuki'
 
 if bike == 'Hero':
     print("bike is Hero")
