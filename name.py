@@ -1,13 +1,8 @@
-bike = 'Yamaha'
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
 
-if bike == 'Hero':
-    print("bike is Hero")
+p1 = Person("John", 36)
 
-elif bike == "Suzuki":
-    print("bike is Suzuki")
-
-elif bike == "Yamaha":
-    print("bike is Yamaha")
-
-else:
-    print("Please choose correct answer")
+print(p1)
