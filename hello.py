@@ -1,6 +1,6 @@
-a = 330
-b = 200
-if b < a:
-  print("b is less than a")
-  print(b)
-
+i = 1
+while i < 6:
+  print(i)
+  i += 1
+else:
+  print("i is no longer less than 6")
