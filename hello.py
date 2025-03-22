@@ -1,5 +1,5 @@
-print("hello")
-a=5
-b=89
-print(a+b)
-
+a = 200
+b = 33
+c = 500
+if a > b or a > c:
+  print("At least one of the conditions is True")
