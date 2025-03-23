@@ -1,15 +1,16 @@
-# This code runs only in python 3.10 or above versions
-def number_to_string(argument):
-    match argument:
-        case 0:
-            return "zero"
-        case 1:
-            return "one"
-        case 2:
-            return "two"
-        case default:
-            return "something"
- 
+# Python program to swap two variables
 
-head = number_to_string(2)
-print(head)
+x = 5
+y = 10
+
+# To take inputs from the user
+#x = input('Enter value of x: ')
+#y = input('Enter value of y: ')
+
+# create a temporary variable and swap the values
+temp = x
+x = y
+y = temp
+
+print('The value of x after swapping: {}'.format(x))
+print('The value of y after swapping: {}'.format(y))
