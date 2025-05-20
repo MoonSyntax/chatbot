@@ -1,46 +1,92 @@
-# test_1000_tokens.py
+# task_manager.py
 
-import math
-import random
-from typing import List, Dict
+from typing import List, Dict, Optional
+import uuid
+import datetime
 
-class DataProcessor:
-    def __init__(self, data: List[int]):
-        self.data = data
+class Task:
+    def __init__(self, title: str, description: str, due_date: Optional[str] = None):
+        self.id = str(uuid.uuid4())
+        self.title = title
+        self.description = description
+        self.created_at = datetime.datetime.now()
+        self.due_date = due_date
+        self.completed = False
 
-    def clean_data(self) -> List[int]:
-        return [x for x in self.data if x is not None and isinstance(x, int)]
+    def mark_complete(self):
+        self.completed = True
 
-    def scale_data(self, factor: float) -> List[float]:
-        return [x * factor for x in self.clean_data()]
-
-    def normalize_data(self) -> List[float]:
-        clean = self.clean_data()
-        min_val = min(clean)
-        max_val = max(clean)
-        return [(x - min_val) / (max_val - min_val) if max_val != min_val else 0 for x in clean]
-
-    def compute_statistics(self) -> Dict[str, float]:
-        clean = self.clean_data()
+    def to_dict(self) -> Dict:
         return {
-            "mean": sum(clean) / len(clean),
-            "min": min(clean),
-            "max": max(clean),
-            "std_dev": math.sqrt(sum((x - sum(clean)/len(clean))**2 for x in clean) / len(clean))
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "created_at": self.created_at.isoformat(),
+            "due_date": self.due_date,
+            "completed": self.completed
         }
 
-def generate_data(n: int) -> List[int]:
-    return [random.randint(1, 100) for _ in range(n)]
+class TaskManager:
+    def __init__(self):
+        self.tasks: List[Task] = []
+
+    def add_task(self, title: str, description: str, due_date: Optional[str] = None):
+        task = Task(title, description, due_date)
+        self.tasks.append(task)
+        return task.id
+
+    def get_task(self, task_id: str) -> Optional[Task]:
+        for task in self.tasks:
+            if task.id == task_id:
+                return task
+        return None
+
+    def complete_task(self, task_id: str) -> bool:
+        task = self.get_task(task_id)
+        if task:
+            task.mark_complete()
+            return True
+        return False
+
+    def list_tasks(self, include_completed: bool = True) -> List[Dict]:
+        result = []
+        for task in self.tasks:
+            if include_completed or not task.completed:
+                result.append(task.to_dict())
+        return result
+
+    def delete_task(self, task_id: str) -> bool:
+        for i, task in enumerate(self.tasks):
+            if task.id == task_id:
+                del self.tasks[i]
+                return True
+        return False
+
+def create_sample_tasks(manager: TaskManager):
+    for i in range(20):
+        manager.add_task(
+            title=f"Task {i+1}",
+            description="This is a sample task for testing the task manager.",
+            due_date="2025-12-31"
+        )
 
 def main():
-    data = generate_data(100)
-    processor = DataProcessor(data)
+    manager = TaskManager()
+    create_sample_tasks(manager)
+    print("All Tasks (Initial):")
+    for task in manager.list_tasks():
+        print(task)
 
-    print("Original Data:", data[:10])
-    print("Clean Data:", processor.clean_data()[:10])
-    print("Scaled Data (x2):", processor.scale_data(2.0)[:10])
-    print("Normalized Data:", processor.normalize_data()[:10])
-    print("Statistics:", processor.compute_statistics())
+    first_task_id = manager.tasks[0].id
+    print("\nCompleting first task...")
+    manager.complete_task(first_task_id)
+
+    print("\nIncomplete Tasks:")
+    for task in manager.list_tasks(include_completed=False):
+        print(task)
+
+if __name__ == "__main__":
+    main()
 
 if __name__ == "__main__":
     main()
