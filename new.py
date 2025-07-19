@@ -36,11 +36,6 @@ def main():
     data = generate_data(100)
     processor = DataProcessor(data)
 
-    print("Original Data:", data[:10])
-    print("Clean Data:", processor.clean_data()[:10])
-    print("Scaled Data (x2):", processor.scale_data(2.0)[:10])
-    print("Normalized Data:", processor.normalize_data()[:10])
-    print("Statistics:", processor.compute_statistics())
-
+  
 if __name__ == "__main__":
     main()
